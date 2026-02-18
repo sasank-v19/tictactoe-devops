@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from game import TicTacToe
 
 app = Flask(__name__)
@@ -6,7 +6,7 @@ game = TicTacToe()
 
 @app.route("/")
 def home():
-    return "TicTacToe DevOps App Running"
+    return render_template("index.html")
 
 @app.route("/board")
 def board():
@@ -24,6 +24,11 @@ def move():
 @app.route("/health")
 def health():
     return {"status": "healthy"}, 200
+
+@app.route("/reset", methods=["POST"])
+def reset():
+    game.reset()
+    return {"status":"reset"}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
